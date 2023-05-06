@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Week5Assignment</title>
+</head>
+<body>
+    <h1>Week 5 Assignment</h1>
+    <script>
+        class Car {
+    constructor(make, model){
+        this.make = make;
+        this.model = model;
+         }
+    
+    }
+
+
+class CountryOfOrigin {
+    constructor(country){
+        this.country = country;
+        this.cars = [];
+    }
+}
+
+class Menu {
+    constructor(){
+        this.countries = [];
+        this.selectedCountry = null;
+    }
+
+    start(){
+        let selection = this.showMainMenuOptions();
+
+            while (selection != 0) {
+            switch(selection) {
+                case '1' :
+                    this.viewCountryAndCars();
+                    break;
+                case '2' :
+                    this.displayCountry();
+                    break;
+                case '3' :
+                    this.addNewCountry();
+                    break;
+                case '4' :
+                    this.deleteCountry();
+                    break;
+                
+                default:
+                    selection = 0;
+            }
+            selection = this.showMainMenuOptions();
+        
+        }
+       alert('End');
+    }
+    
+    showMainMenuOptions() {
+    return prompt(`
+     ---Our World of Cars--- 
+    --------------------------------
+       -Select an option
+
+    0- Exit
+    1- Countries and their cars
+    2- View all available countries and their indexes
+    3- Add a new country
+    4- Delete a country`)
+    }
+
+    showCountryMenuOptions(countryInfo){
+        return prompt(`
+       ${countryInfo}
+    -----------------------
+       Select an option
+    
+        0)Return
+        1)Create new car
+        2)Delete a car
+        
+       `);
+
+    }
+
+    displayCountry() {
+        let countryString = '';
+            for(let i = 0; i < this.countries.length; i++){
+                countryString += i + '- ' + this.countries[i].country + '\n';
+         }
+         alert(countryString);
+    }
+    addNewCountry(){
+        let countryName = prompt('Enter in name of new country:');
+        this.countries.push(new CountryOfOrigin(countryName));
+        alert('New country has been added, you can now find this country in the "index 2" tab')
+    }
+    deleteCountry(){
+        let index = prompt(`Enter the index of the country you wish to remove:`);
+        if (index > -1 && index < this.countries.length){
+            this.countries.splice(index, 1);
+            alert('The country you have selected has been removed, all cars associated with this country have also been removed.');
+        }
+    }
+
+
+    viewCountryAndCars(){
+        let index = prompt('Enter index of desired country');
+        if(index >-1 && index < this.countries.length){
+                this.selectedCountry = this.countries[index];
+                let description = 'Country selected: ' + this.selectedCountry.country + '\n';
+
+        for(let i = 0; i < this.selectedCountry.cars.length; i++){
+        description += i + '- ' + this.selectedCountry.cars[i].make + 
+        '  ' + this.selectedCountry.cars[i].model + '\n';
+             }
+    let selection = this.showCountryMenuOptions(description);
+         
+            switch(selection){
+             case '1':
+                this.createCar();
+             break;
+             case '2':
+                this.deleteCar();          
+
+            }
+        }
+    }
+
+     createCar(){
+        let make = prompt(`Enter the make of the new car you wish to add: ` );
+        let model = prompt(`Enter specific model of the new car: `);
+        this.selectedCountry.cars.push(new Car(make, model));
+    }
+
+    deleteCar(){
+        let index = prompt(`Enter the index number of the car you want to delete: `);
+        if (index > -1 && index < this.selectedCountry.cars.length){
+            this.selectedCountry.cars.splice(index, 1);
+            alert('The car you entered has been deleted')
+        }
+    }
+    
+}
+
+
+
+let menu = new Menu();
+menu.start();
+    
+    </script>
+</body>
+</html>
